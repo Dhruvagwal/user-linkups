@@ -63,22 +63,15 @@ const signUpWithPhoneNumber = async (phone)=>{
 }
 
 const verifyToken = async ()=>{
-
-  const LINKUPS_USER_ACCESS_TOKEN = await AsyncStorage.getItem(STORAGE_KEY_1)
   const LINKUPS_USER_REFRESH_TOKEN = await AsyncStorage.getItem(STORAGE_KEY_2)
   const LINKUPS_USER_PHONE_NUMBER = await AsyncStorage.getItem(STORAGE_KEY_3)
 
-  console.log(LINKUPS_USER_PHONE_NUMBER)
-  console.log(LINKUPS_USER_ACCESS_TOKEN)
-  console.log(LINKUPS_USER_REFRESH_TOKEN)
-  
   const data={
     phone : LINKUPS_USER_PHONE_NUMBER,
     token : LINKUPS_USER_REFRESH_TOKEN
   }
 
   const result = await instances.post('/verifyToken', data).then(async (response)=>{
-    console.log('trigger')
     await AsyncStorage.setItem(STORAGE_KEY_1, response.data.ACCESS_TOKEN)
     return true
   }).catch(err=>false)
