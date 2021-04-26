@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, View, StatusBar, SafeAreaView } from 'react-native'
+import { StatusBar } from 'react-native'
 
 import Navigation from './src/navigation/index'
 
