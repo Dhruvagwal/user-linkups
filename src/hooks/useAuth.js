@@ -78,4 +78,8 @@ const verifyToken = async ()=>{
   return result
 }
 
-export {signInWithPhoneNumber, signUpWithPhoneNumber, confirmOTP, verifyToken}
+const Logout =async()=>{
+  await AsyncStorage.clear()
+}
+
+export {signInWithPhoneNumber, signUpWithPhoneNumber, confirmOTP, verifyToken, Logout}

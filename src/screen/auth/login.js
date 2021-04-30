@@ -51,7 +51,7 @@ const SignUp = ({navigation}) => {
                 <Text>{'\n'}</Text>
                 {!loading ?<Button style={styles.SubmitButton} title='Submit' onPress={LoginUser}/>
                 :<ActivityIndicator size="small" color="#0000ff" />}
-                <TouchableOpacity onPress={()=>navigation.navigate(CONSTANT.Login)} style={{marginTop:25}}>
+                <TouchableOpacity onPress={()=>navigation.navigate(CONSTANT.SignUp)} style={{marginTop:25}}>
                     <Text style={styles.SignUp}>Don't Have An Account? SignUp</Text>
                 </TouchableOpacity>
             </View>

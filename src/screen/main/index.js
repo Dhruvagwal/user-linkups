@@ -1,10 +1,11 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, FlatList, Dimensions } from 'react-native'
+
+import Home from './home'
 
 const Index = () => {
     return (
-        <View>
-            <Text>main</Text>
+        <View style={{flex:1}}>
         </View>
     )
 }
