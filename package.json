@@ -12,9 +12,11 @@
     "@react-native-community/masked-view": "^0.1.10",
     "@react-navigation/native": "^5.9.4",
     "@react-navigation/stack": "^5.14.4",
+    "@use-expo/font": "^2.0.0",
     "axios": "^0.21.1",
     "core-js": "^3.11.0",
     "expo": "~41.0.1",
+    "expo-font": "~9.1.0",
     "expo-status-bar": "~1.0.4",
     "firebase": "8.4.2",
     "react": "16.13.1",
@@ -27,7 +29,8 @@
     "react-native-web": "^0.16.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.9.0"
+    "@babel/core": "^7.9.0",
+    "babel-plugin-module-resolver": "^4.1.0"
   },
   "private": true
 }

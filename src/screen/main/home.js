@@ -1,10 +1,12 @@
 import React from 'react'
-import { StyleSheet, Text, View, Dimensions } from 'react-native'
+import { StyleSheet, Dimensions, View } from 'react-native'
+
+import {Text} from 'styles'
 
 const Index = () => {
     return (
-        <View style={styles.container}>
-            <Text>Home List</Text>
+        <View>
+            <Text bold size={20}>Dhruv</Text>
         </View>
     )
 }
@@ -12,7 +14,5 @@ const Index = () => {
 export default Index
 
 const styles = StyleSheet.create({
-    container:{
-        width: Dimensions.get('screen').width
-    }
+    
 })
