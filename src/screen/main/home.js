@@ -6,7 +6,7 @@ import {Text} from 'styles'
 const Index = () => {
     return (
         <View>
-            <Text bold size={20}>Dhruv</Text>
+            <Text size={30} bold>Linkups</Text>
         </View>
     )
 }
