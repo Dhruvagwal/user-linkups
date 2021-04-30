@@ -37,7 +37,7 @@ const Index = () => {
     const BlackTheme = {
         ...DefaultTheme,
         colors:{
-            ...DefaultTheme,
+            ...DefaultTheme,    
         },
     }
 
@@ -48,7 +48,8 @@ const Index = () => {
                     onStateChange={async () => {
                         const name = await navigationRef.current.getCurrentRoute().name
                         setName(name)
-                    }}      
+                    }} 
+                    screenOptions={{ animationEnabled: false }}     
                 >
                     {!state.auth?
                         <Stack.Navigator headerMode={false}>
@@ -57,7 +58,7 @@ const Index = () => {
                             <Stack.Screen name={CONSTANT.SignUp} component={SignupScreen}/>
                         </Stack.Navigator>
                         :
-                        <Stack.Navigator headerMode={false}>
+                        <Stack.Navigator headerMode={false} screenOptions={{ animationEnabled: false }}>
                             {Loading && <Stack.Screen name={CONSTANT.Loading} component={LoadingScreen}/>}
                             <Stack.Screen name={CONSTANT.Home} component={MainScreen}/>
                             <Stack.Screen name={CONSTANT.Cart} component={OrderList}/>
