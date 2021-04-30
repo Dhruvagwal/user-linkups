@@ -1,7 +1,9 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
-const index = () => {
+import {Text} from 'styles'
+
+const Index = () => {
     return (
         <View>
             <Text>Order</Text>
@@ -9,6 +11,6 @@ const index = () => {
     )
 }
 
-export default index
+export default Index
 
 const styles = StyleSheet.create({})

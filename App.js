@@ -6,7 +6,8 @@ import Navigation from './src/navigation/index'
 import { useFonts } from '@use-expo/font';
 import { AppLoading } from 'expo';
 
-import {AuthProvider} from './src/context/auth'
+import {AuthProvider} from 'context/auth'
+import {DataProvider} from 'context/data'
 
 
 const App = () => {
@@ -26,7 +27,9 @@ const App = () => {
     <>
       <StatusBar translucent={true} backgroundColor={'transparent'}/>
       <AuthProvider>
-        <Navigation/>
+      <DataProvider>
+          <Navigation/>
+      </DataProvider>
       </AuthProvider>
     </>
   )

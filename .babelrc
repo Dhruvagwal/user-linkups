@@ -8,7 +8,10 @@
                 ],
                 "alias": {
                     "styles": "./src/Styles",
-                    "colors":"./src/Styles/color.js"
+                    "colors":"./src/Styles/color.js",
+                    "navigation":"./src/navigation",
+                    "context":"./src/context",
+                    "components": "./src/components"
                 }
             }
         ]

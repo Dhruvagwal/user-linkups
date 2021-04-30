@@ -2,6 +2,9 @@
     "Home":"Main",
     "Login":"Login",
     "SignUp":"SignUp",
-    "Loading":"Loading"
+    "Loading":"Loading",
+    "Cart":"Cart",
+    "Profile":"Profile",
+    "Service":"Service"
     
 }
