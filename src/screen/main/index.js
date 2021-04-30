@@ -6,6 +6,7 @@ import Home from './home'
 const Index = () => {
     return (
         <View style={{flex:1}}>
+            <Home/>
         </View>
     )
 }
