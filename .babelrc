@@ -1,0 +1,16 @@
+{
+    "plugins": [
+        [
+            "module-resolver",
+            {
+                "root": [
+                    "./src"
+                ],
+                "alias": {
+                    "styles": "./src/Styles",
+                    "colors":"./src/Styles/color.js"
+                }
+            }
+        ]
+    ]
+}
