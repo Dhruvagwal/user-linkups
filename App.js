@@ -14,6 +14,7 @@ const App = () => {
   let [fontsLoaded] = useFonts({
       'Montserrat': require('./assets/fonts/Montserrat-ExtraLight.ttf'),
       'Montserrat-Bold': require('./assets/fonts/Montserrat-Bold.ttf'),
+      'Montserrat-Regular': require('./assets/fonts/Montserrat-Regular.ttf'),
   });
 
   if(!fontsLoaded){
