@@ -9,7 +9,7 @@ const HEIGHT = Dimensions.get('screen').height
 
 const Index = () => {
     return (
-        <View style={{flex:1, padding:20}}>
+        <View style={{flex:1}}>
             <View style={{height:HEIGHT*.05}}/>
             <View style={[{flex:1, alignItems:'stretch',flexDirection:'row'},StyleSheet.absoluteFillObject]}>
                 <View style={{backgroundColor:color.dark, width:'85%'}}/>
