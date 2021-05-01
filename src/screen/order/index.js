@@ -44,7 +44,9 @@ const Index = () => {
                 </ScrollView>
             </View>
             <BottomSheet snapPoints={[HEIGHT*.2,HEIGHT*.5]}>
-                <Text>Dhruv</Text>
+                <View style={{padding:20}}>
+                    <Text>Dhruv</Text>
+                </View>
             </BottomSheet>
         </CartView>
     )
