@@ -5,6 +5,7 @@
     "Loading":"Loading",
     "Cart":"Cart",
     "Profile":"Profile",
-    "Service":"Service"
+    "Service":"Service",
+    "ServiceDescription":"ServiceDescription"
     
 }

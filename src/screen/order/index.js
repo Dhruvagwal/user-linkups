@@ -35,8 +35,8 @@ const CartListView = ()=>{
     const IMAGE_SIZE = 150
     const [count, setCount] = useState(1)
     const uri = "https://us.123rf.com/450wm/bialasiewicz/bialasiewicz1805/bialasiewicz180500624/101345144-decorative-mirror-and-modern-painting-hanging-on-the-wall-with-molding-in-dark-grey-living-room-inte.jpg?ver=6"
-    return <RowView style={{backgroundColor:color.dark, opacity:0.7, height:IMAGE_SIZE, marginBottom:20}}>
-        <Image source={{uri}} style={{height:IMAGE_SIZE, width:IMAGE_SIZE}}/>
+    return <RowView style={{backgroundColor:color.dark, opacity:0.7, height:IMAGE_SIZE, marginBottom:20, borderRadius:20, overflow:'hidden'}}>
+        <Image source={{uri}} style={{height:IMAGE_SIZE, width:IMAGE_SIZE, borderRadius:20}}/>
         <View style={{margin:10, alignSelf:'flex-start', width: WIDTH-(IMAGE_SIZE+60),justifyContent:'space-around' ,height:IMAGE_SIZE-20}}>
             <RowView style={{justifyContent:'space-between', alignItems:'flex-start'}}>
                 <View>
@@ -60,7 +60,7 @@ const Index = () => {
         <CartView>
             <View style={{padding:20}}>
                 <Text bold size={30}>Linkups</Text>
-                <Text>Cart</Text>
+                <Text>Bag</Text>
                 <ScrollView showsVerticalScrollIndicator={false} style={{marginTop:20, marginBottom:HEIGHT*.3}}>
                     <CartListView/>
                     <CartListView/>

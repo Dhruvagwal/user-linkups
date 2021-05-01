@@ -19,9 +19,9 @@ const BackGround = ()=>{
 const ServiceListView = ()=>{
     const IMAGE_SIZE = 150
     const uri = "https://us.123rf.com/450wm/bialasiewicz/bialasiewicz1805/bialasiewicz180500624/101345144-decorative-mirror-and-modern-painting-hanging-on-the-wall-with-molding-in-dark-grey-living-room-inte.jpg?ver=6"
-    return <RowView style={{backgroundColor:color.dark, opacity:0.7, height:IMAGE_SIZE, marginBottom:20}}>
-        <Image source={{uri}} style={{height:IMAGE_SIZE, width:IMAGE_SIZE}}/>
-        <View style={{margin:10, alignSelf:'flex-start', width: WIDTH-(IMAGE_SIZE+60),justifyContent:'space-around' ,height:IMAGE_SIZE-20}}>
+    return <RowView style={{backgroundColor:color.dark, opacity:0.7, height:IMAGE_SIZE, marginBottom:20, borderRadius:20}}>
+        <Image source={{uri}} style={{height:IMAGE_SIZE, width:IMAGE_SIZE, borderRadius:20}}/>
+        <View style={{margin:10, alignSelf:'flex-start', width: WIDTH-(IMAGE_SIZE+60),justifyContent:'space-around',height:IMAGE_SIZE-20}}>
             <View>
                 <Text regular size={20}>Micke Sofa</Text>
                 <Text size={20}>₹ 55,000</Text>
@@ -73,6 +73,8 @@ export default Index
 const styles = StyleSheet.create({
     contain:{
         paddingVertical:10,
-        paddingHorizontal:5
+        paddingHorizontal:5,
+        borderTopRightRadius:10,
+        borderTopLeftRadius:10
     }
 })
