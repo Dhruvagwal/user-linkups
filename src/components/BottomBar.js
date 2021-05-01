@@ -45,14 +45,14 @@ const BottomBar=()=>{
             </RowView>
         </Pressable>
 
-        <Pressable onPress={()=>RootNavigation.navigate(CONSTANT.Cart)} style={[styles.option,{backgroundColor:Activate.service? color.lightDark: '#0000'}]}>
+        <Pressable onPress={()=>RootNavigation.navigate(CONSTANT.Service)} style={[styles.option,{backgroundColor:Activate.service? color.lightDark: '#0000'}]}>
             <RowView>
                 <AntDesign name="customerservice" size={ICON_SIZE} color={Activate.service?color.active:color.inActive} />
                 {Activate.service && <Text style={{color:color.active}} regular> Services</Text>}
             </RowView>
         </Pressable>
 
-        <Pressable onPress={()=>RootNavigation.navigate(CONSTANT.Cart)} style={[styles.option,{backgroundColor:Activate.profile? color.lightDark: '#0000'}]}>
+        <Pressable onPress={()=>RootNavigation.navigate(CONSTANT.Profile)} style={[styles.option,{backgroundColor:Activate.profile? color.lightDark: '#0000'}]}>
             <RowView>
                 <Feather name="user" size={ICON_SIZE} color={Activate.profile?color.active:color.inActive} />
                 {Activate.profile && <Text style={{color:color.active}} regular> Profile</Text>}

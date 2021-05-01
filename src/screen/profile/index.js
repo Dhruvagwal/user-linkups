@@ -1,31 +1,30 @@
-import React from 'react'
-import { StyleSheet, Text, View, Dimensions, Button } from 'react-native'
+import React, {useState} from 'react'
+import { StyleSheet, View, Dimensions, Pressable,ScrollView, Image, TextInput } from 'react-native'
 
-import {Logout} from '../../hooks/useAuth'
-import {AuthConsumer} from '../../context/auth'
+import BottomBar from 'components/BottomBar'
+import color from 'colors'
+import { Ionicons } from '@expo/vector-icons';
+import {Text, RowView} from 'styles'
 
+const HEIGHT = Dimensions.get('screen').height
 const WIDTH = Dimensions.get('screen').width
 
-const Index = () => {
+const BackGround = ()=>{
+    return <View style={[{flex:1},StyleSheet.absoluteFillObject]}>
+        <View style={[{flex:1, alignItems:'stretch',flexDirection:'row', backgroundColor:color.dark, height:HEIGHT},StyleSheet.absoluteFillObject]}/>
+        <View style={{backgroundColor:color.secondaryDark,height:1000, width:400,transform:[{rotate:'-30deg'}, {translateY:-100}]}}/>
+    </View>
+}
 
-    const {setAuth} = AuthConsumer()
-    const logout = async ()=>{
-        await Logout()
-        setAuth(false)
-    }
+const Index = () => {
     return (
-        <View style={styles.container}>
-            <View style={{alignItems:'stretch',alignSelf:'center',width:WIDTH/1.5, position:'absolute',bottom:20, justifyContent:'center', flex:1}}>
-                <Button title='Logout' onPress={logout}/>
-            </View>
+        <View style={{flex:1}}>
+            <BackGround/>
+            <BottomBar/>
         </View>
     )
 }
 
 export default Index
 
-const styles = StyleSheet.create({
-    container:{
-        width: WIDTH
-    }
-})
+const styles = StyleSheet.create({})
