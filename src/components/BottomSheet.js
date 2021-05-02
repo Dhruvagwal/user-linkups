@@ -1,7 +1,10 @@
-import React from 'react'
-import { StyleSheet, Text, View, Dimensions } from 'react-native'
+import React, {useState} from 'react'
+import { StyleSheet, View, Dimensions } from 'react-native'
+
+import { MaterialIcons } from '@expo/vector-icons';
 
 import color from 'colors'
+import {Text} from 'styles'
 
 import BottomSheet,{BottomSheetScrollView} from '@gorhom/bottom-sheet'
 import { onChange } from 'react-native-reanimated'
@@ -14,7 +17,10 @@ const Sheet = ({children, snapPoints, onChange}) => {
             initialSnapIndex ={0}
             onChange={onChange}
             snapPoints={snapPoints}
-            handleComponent={()=><View style={{borderWidth:2,borderRadius:10, alignSelf:'center',borderColor:color.dark, margin:10, width:70}}/>}
+            enableContentPanningGesture={false}
+            handleComponent={()=><View style={{padding:20, alignItems:'center'}}>
+                <Text size={12}>Pull me</Text>
+            </View>}
             backgroundComponent={() =>
                         <View style={styles.contentContainer}/>
             }

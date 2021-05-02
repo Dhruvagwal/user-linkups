@@ -135,7 +135,7 @@ const Index = () => {
         </View>
     )
 }
-
+export {ProductList}
 export default Index
 
 const styles = StyleSheet.create({
