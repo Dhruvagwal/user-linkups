@@ -6,6 +6,7 @@
     "Cart":"Cart",
     "Profile":"Profile",
     "Service":"Service",
-    "ServiceDescription":"ServiceDescription"
+    "ServiceDescription":"ServiceDescription",
+    "ServiceProvider": "ServiceProvider"
     
 }

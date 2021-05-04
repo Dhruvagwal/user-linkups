@@ -11,7 +11,8 @@
                     "colors":"./src/Styles/color.js",
                     "navigation":"./src/navigation",
                     "context":"./src/context",
-                    "components": "./src/components"
+                    "components": "./src/components",
+                    "hooks":"./src/hooks"
                 }
             }
         ]

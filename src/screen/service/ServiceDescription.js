@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import { StyleSheet, View, Dimensions, FlatList, Image } from 'react-native'
 
-import { Feather, MaterialIcons,FontAwesome5, MaterialCommunityIcons,Octicons, AntDesign } from '@expo/vector-icons'; 
+import { MaterialIcons, AntDesign } from '@expo/vector-icons'; 
 
 import {BottomSheetScrollView, BottomSheetFlatList, BottomSheetDraggableView } from '@gorhom/bottom-sheet'
 
@@ -178,7 +178,7 @@ const ServiceDescription = () => {
         </View>
     )
 }
-
+export {Review}
 export default ServiceDescription
 
 const styles = StyleSheet.create({

@@ -36,7 +36,7 @@ const PRODUCT_WIDTH = 200
 const ProductList = ()=>{
     const [like, setLike] = useState(false)
     const uri = 'https://www.serviceonwheel.com/uploads/service/805621584075079.jpg'
-    return <Pressable onPress={()=>RootNavigation.navigate(CONSTANT.ServiceDescription)} style={{marginHorizontal:15}}>
+    return <Pressable onPress={()=>RootNavigation.navigate(CONSTANT.ServiceProvider)} style={{marginHorizontal:15}}>
         <Image source={{uri}} style={{height:PRODUCT_HEIGHT, width:PRODUCT_WIDTH, borderRadius:30, opacity:.9}}/>
         <Pressable onPress={()=>setLike(like=>!like)} style={{position:'absolute', right:15, top:15}}>
             <AntDesign name="heart" size={30} color={like?color.active:color.white} />
