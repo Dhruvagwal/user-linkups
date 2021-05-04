@@ -17,6 +17,7 @@ import ServiceScreen from '../screen/service'
 import ProfileScreen from '../screen/profile'
 import ServiceDescriptionScreen from '../screen/service/ServiceDescription'
 import ServiceProviderScreen from '../screen/service/ServiceProvider'
+import ChangeLocationScreen from '../screen/profile/Location'
 
 import color from 'colors'
 
@@ -70,6 +71,7 @@ const Index = () => {
                             <Stack.Screen name={CONSTANT.ServiceDescription} component={ServiceDescriptionScreen}/>
                             <Stack.Screen name={CONSTANT.ServiceProvider} component={ServiceProviderScreen}/>
                             <Stack.Screen name={CONSTANT.Profile} component={ProfileScreen}/>
+                            <Stack.Screen name={CONSTANT.ChangeLocation} component={ChangeLocationScreen}/>
                         </Stack.Navigator>
                     }
             </NavigationContainer>

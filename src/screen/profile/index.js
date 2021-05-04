@@ -1,10 +1,13 @@
 import React, {useState} from 'react'
-import { StyleSheet, View, Dimensions, Pressable,ScrollView, Image, TextInput } from 'react-native'
+import { StyleSheet, View, Dimensions, Pressable,ScrollView, Image, TextInput} from 'react-native'
 
+import CONSTANT from 'navigation/navigationConstant'
 import BottomBar from 'components/BottomBar'
 import color from 'colors'
 import { MaterialCommunityIcons, MaterialIcons, Entypo, AntDesign, FontAwesome, Foundation } from '@expo/vector-icons'; 
 import {Text, RowView} from 'styles'
+
+import getLocation from 'hooks/useLocation'
 
 const HEIGHT = Dimensions.get('screen').height
 const WIDTH = Dimensions.get('screen').width
@@ -19,16 +22,21 @@ const BackGround = ()=>{
 const uri = 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
 const IMAGE_SIZE = 150
 
-const Options=({children})=>{
-return <RowView style={{paddingVertical:15, justifyContent:'space-between'}}>
-        <RowView>
-            {children}
+const Options=({children, onPress})=>{
+return <Pressable onPress={onPress}>
+        <RowView style={{paddingVertical:15, justifyContent:'space-between'}}>
+            <RowView>
+                {children}
+            </RowView>
+            <MaterialIcons name="keyboard-arrow-right" size={24} color={color.white} />
         </RowView>
-        <MaterialIcons name="keyboard-arrow-right" size={24} color={color.white} />
-    </RowView>
+    </Pressable>
 }
 
-const Index = () => {
+const Index = ({navigation}) => {
+    const changeLocation=async ()=>{
+        navigation.navigate(CONSTANT.ChangeLocation)
+    }
     return (
         <View style={{flex:1}}>
             <BackGround/>
@@ -46,10 +54,12 @@ const Index = () => {
                     <Text size={20} style={{alignSelf:'center'}} bold>Dhruv Aggarwal</Text>
                     <Text style={{alignSelf:'center'}} regular>+91 8595771213</Text>
                     <View style={{flex:1, justifyContent:'center'}}>
-                        <Options>
+
+                        <Options onPress={changeLocation}>
                             <FontAwesome name="address-book" size={24} color={color.white} />
-                            <Text>  Change Address</Text>
+                            <Text>  My Address</Text>
                         </Options>
+
                         <Options>
                             <AntDesign name="customerservice" size={24} color={color.white} />
                             <Text>  Become a Seller</Text>
