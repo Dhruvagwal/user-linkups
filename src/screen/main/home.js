@@ -52,9 +52,9 @@ const ProductList = ()=>{
     </Pressable>
 }
 
-const SubCategory = ()=>{
+const SubCategory = ({width=300})=>{
     const uri = 'https://www.scitech.edu/static/image/programs/general-electrician/electrician-student-lab-work.jpg'
-    return <ImageBackground source={{uri}} style={{width:300, height:180, marginHorizontal:15, borderRadius:20, overflow:'hidden'}}>
+    return <ImageBackground source={{uri}} style={{width, height:180, marginHorizontal:15, borderRadius:20, overflow:'hidden', marginBottom:20}}>
                 <View style={{backgroundColor:'rgba(0,0,0,0.6)', flex:1}}>
                     <Text style={{margin:10}} size={30} bold>AC Repair</Text>
                     <Text style={{...styles.price,top:100}} regular>₹ 510</Text>
@@ -137,7 +137,7 @@ const Index = () => {
         </View>
     )
 }
-export {ProductList}
+export {ProductList, SubCategory}
 export default Index
 
 const styles = StyleSheet.create({
