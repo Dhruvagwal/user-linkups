@@ -4,18 +4,19 @@ import color from 'colors'
 import { Entypo } from '@expo/vector-icons'; 
 import {installWebGeolocationPolyfill} from 'expo-location'
 import { StyleSheet, View, Dimensions, Pressable, ScrollView, TextInput } from 'react-native';
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import { GooglePlacesAutocomplete, geocodeByAddress, getLatLng } from 'react-native-google-places-autocomplete';
 import getLocation from 'hooks/useLocation'
 import {Text, RowView} from 'styles'
 
 const WIDTH = Dimensions.get('screen').width
 const HEIGHT = Dimensions.get('screen').height
 
-const GooglePlaceAutoComplete = ()=>{
+const GooglePlaceAutoComplete = ({onGet, isFocused})=>{
     return <GooglePlacesAutocomplete
                     placeholder='Change Address'
                     minLength={2}
                     textInputProps={{ placeholderTextColor: color.white}}
+                    ref = {e=>e && isFocused(e.isFocused())}
                     styles={{
                         textInput:{
                           backgroundColor:color.dark,
@@ -38,8 +39,7 @@ const GooglePlaceAutoComplete = ()=>{
                         }
                     }}
                     onPress={(data, details = null) => {
-    
-                        console.log(data, details);
+                        onGet(data, details)
                     }}
                     nearbyPlacesAPI='GooglePlacesSearch'
                     enablePoweredByContainer={false}
@@ -55,6 +55,8 @@ const GooglePlaceAutoComplete = ()=>{
 export default function App() {
   const [latitude, setLatitude] = useState(20.5937)
   const [longitude, setLongitude] = useState(78.9629)
+  const [Address, setAddress] = useState(null)
+  const [isFocused, setIsFocused] = useState(null)
   const [coords, setCoords] = useState({    
     latitude,
     longitude,
@@ -69,15 +71,19 @@ export default function App() {
         setCoords({...coords, latitude, longitude})
     }
   }
-  console.log(latitude, longitude, coords)
+  const onGet = (data, details)=>{
+    setAddress(data.description)
+  }
   return (
     <View style={{flex:1}}>
           <MapView 
             showsCompass
             style={[StyleSheet.absoluteFillObject,styles.map]} 
             initialRegion={coords}
-            onRegionChangeComplete={e=>{setCoords(e)}}
+            coordinate={coords}
+            onRegionChange={e=>{setCoords(e)}}
             rotateEnabled={false}
+            // onPanDrag={(e)=>console.log(e)}
             showsCompass={false}
         >
           <Marker 
@@ -86,21 +92,24 @@ export default function App() {
           />
         </MapView>
       <View style={[styles.TextInput]}>
-          <GooglePlaceAutoComplete styles={styles.TextInput}/>
-          <Pressable onPress={()=>MapPoints(true)}>
+          <GooglePlaceAutoComplete styles={styles.TextInput} onGet={onGet} isFocused={setIsFocused}/>
+          {isFocused && <Pressable onPress={()=>MapPoints(true)}>
             <RowView style={{backgroundColor:color.dark, opacity: 0.8, borderRadius:5, padding:10, marginTop:2}}>
                 <Entypo name="location-pin" size={25} color={color.active} />
-                <Text>Current Location</Text>
+                <Text>Current Address</Text>
             </RowView>
-          </Pressable>
+          </Pressable>}
       </View>
       <View style={styles.container}>
         <ScrollView>
             <View>
                 <Text>Current Location</Text>
-                <Text regular>Dhruv</Text>
+                <Text regular>{Address}</Text>
             </View>
         </ScrollView>
+        <Pressable style={{backgroundColor:color.active, alignSelf:'flex-end', padding:10, borderRadius:100, paddingHorizontal:20,position:'absolute', bottom:20, right:20}}>
+          <Text>Save</Text>
+        </Pressable>
       </View>
     </View>
   );

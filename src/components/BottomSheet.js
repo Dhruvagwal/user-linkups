@@ -19,7 +19,7 @@ const Sheet = ({children, snapPoints, onChange}) => {
             snapPoints={snapPoints}
             enableContentPanningGesture={false}
             handleComponent={()=><View style={{padding:20, alignItems:'center'}}>
-                <Text size={12}>Pull me</Text>
+                <View style={{padding:2,backgroundColor:color.inActive, width:50, borderRadius:100}}/>
             </View>}
             backgroundComponent={() =>
                         <View style={styles.contentContainer}/>

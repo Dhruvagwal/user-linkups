@@ -8,6 +8,7 @@
     "Service":"Service",
     "ServiceDescription":"ServiceDescription",
     "ServiceProvider": "ServiceProvider",
-    "ChangeLocation":"ChangeLocation"
+    "ChangeLocation":"ChangeLocation",
+    "SearchBar":"SearchBar"
     
 }

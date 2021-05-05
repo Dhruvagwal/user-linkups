@@ -79,9 +79,11 @@ const Index = () => {
                     <RowView style={{justifyContent:'space-between', margin:20}}>
                         <Text size={30} bold>Linkups</Text>
                         <RowView style={{width:WIDTH*.35, justifyContent:'space-between'}}>
-                            <RowView style={styles.Input}>
-                                <Feather name="search" size={27} color={color.white} style={{marginRight:5}} />
-                            </RowView>
+                            <Pressable onPress={()=>RootNavigation.navigate(CONSTANT.SearchBar)}>
+                                <RowView style={styles.Input}>
+                                    <Feather name="search" size={27} color={color.white} style={{marginRight:5}} />
+                                </RowView>
+                            </Pressable>
                             <AntDesign name="heart" size={27} color={color.white} />
                         </RowView>
                     </RowView>
