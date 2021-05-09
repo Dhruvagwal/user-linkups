@@ -19,7 +19,7 @@ const reducer = (state, action)=>{
 
 const DataProvider = ({children})=>{
     const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
-
+    
     const setName = (currentRouteName)=>{
         dispatch({type:CONTEXT.SET_NAME, currentRouteName})
     }

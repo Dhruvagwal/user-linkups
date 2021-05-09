@@ -4,7 +4,6 @@ import { StatusBar, Text, View } from 'react-native'
 import Navigation from './src/navigation/index'
 
 import { useFonts } from '@use-expo/font';
-import { AppLoading } from 'expo';
 
 import {AuthProvider} from 'context/auth'
 import {DataProvider} from 'context/data'
