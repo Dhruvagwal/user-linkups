@@ -7,7 +7,9 @@ import color from 'colors'
 import { MaterialCommunityIcons, MaterialIcons, Entypo, AntDesign, FontAwesome, Foundation } from '@expo/vector-icons'; 
 import {Text, RowView} from 'styles'
 
-import getLocation from 'hooks/useLocation'
+import {Logout} from 'hooks/useAuth'
+import {AuthConsumer} from 'context/auth'
+import {DataConsumer} from 'context/data'
 
 const HEIGHT = Dimensions.get('screen').height
 const WIDTH = Dimensions.get('screen').width
@@ -34,8 +36,14 @@ return <Pressable onPress={onPress}>
 }
 
 const Index = ({navigation}) => {
+    const {setAuth} = AuthConsumer()
+    const {state:{profile}} = DataConsumer()
     const changeLocation=async ()=>{
         navigation.navigate(CONSTANT.ChangeLocation)
+    }
+    const Auth = async ()=>{
+        await Logout()
+        await setAuth(false)
     }
     return (
         <View style={{flex:1}}>
@@ -51,8 +59,8 @@ const Index = ({navigation}) => {
                 </RowView>
                 <Image source={{uri}} style={{height:IMAGE_SIZE, width:IMAGE_SIZE, borderRadius:IMAGE_SIZE, zIndex:100, alignSelf:'center'}}/>
                 <View style={{backgroundColor:color.elevatedDark,opacity:0.8, borderRadius:20, flex:.85, marginTop:-IMAGE_SIZE/2, paddingTop:IMAGE_SIZE/2+10, padding:10}}>
-                    <Text size={20} style={{alignSelf:'center'}} bold>Dhruv Aggarwal</Text>
-                    <Text style={{alignSelf:'center'}} regular>+91 8595771213</Text>
+                    <Text size={20} style={{alignSelf:'center'}} bold>{profile.Name}</Text>
+                    <Text style={{alignSelf:'center'}} regular>+91 {profile.id.replace('91','')}</Text>
                     <View style={{flex:1, justifyContent:'center'}}>
 
                         <Options onPress={changeLocation}>
@@ -74,10 +82,12 @@ const Index = ({navigation}) => {
                         </Options>
                     </View>
                 </View>
-                <RowView style={{backgroundColor:color.active, padding:10, marginTop:15, borderRadius:100, alignSelf:'center'}}>
-                    <MaterialIcons name="exit-to-app" size={24} color={color.white} />
-                    <Text regular> Log Out</Text>
-                </RowView>
+                <Pressable onPress={Auth}>
+                    <RowView style={{backgroundColor:color.active, padding:10, marginTop:15, borderRadius:100, alignSelf:'center'}}>
+                        <MaterialIcons name="exit-to-app" size={24} color={color.white} />
+                        <Text regular> Log Out</Text>
+                    </RowView>
+                </Pressable>
             </View>
             <BottomBar/>
         </View>

@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { StyleSheet, Dimensions, View, FlatList, Pressable, Image, ScrollView, ImageBackground } from 'react-native'
 
 import { Feather, MaterialIcons,FontAwesome5, MaterialCommunityIcons, AntDesign } from '@expo/vector-icons'; 

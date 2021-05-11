@@ -1,7 +1,9 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { StyleSheet, View, Dimensions, Pressable } from 'react-native'
 
 import Home from './home'
+
+import {DataConsumer} from 'context/data'
 
 import BottomBar from 'components/BottomBar'
 
@@ -11,6 +13,14 @@ const HEIGHT = Dimensions.get('screen').height
 
 
 const Index = () => {
+    const {state:{category}, Category} = DataConsumer()
+    const [loading, setLoading] = useState(false)
+    
+    useEffect(()=>{
+        setLoading(true)
+        Category()
+        setLoading(false)
+    })
     return (
         <View style={{flex:1}}>
             <View style={{height:HEIGHT*.05}}/>

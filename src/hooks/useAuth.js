@@ -14,10 +14,7 @@ const signInWithPhoneNumber = async (phone)=>{
       phone : '91'+phone,
       countryCode: CODE
     }
-
-    const result = await instances.post('/requestOneTimePassword', otpData).then(()=>true).catch(()=>false)
-
-    return result
+    return await instances.post('/requestOneTimePassword', otpData).then(()=>true).catch(()=>false)
 }
 
 const confirmOTP = async (phone, code)=>{
@@ -71,15 +68,19 @@ const verifyToken = async ()=>{
     token : LINKUPS_USER_REFRESH_TOKEN
   }
 
-  const result = await instances.post('/verifyToken', data).then(async (response)=>{
+  return instances.post('/verifyToken', data).then(async (response)=>{
     await AsyncStorage.setItem(STORAGE_KEY_1, response.data.ACCESS_TOKEN)
     return true
   }).catch(err=>false)
-  return result
 }
 
-const Logout =async()=>{
-  await AsyncStorage.clear()
+const Logout =()=>{
+  return AsyncStorage.clear()
 }
 
-export {signInWithPhoneNumber, signUpWithPhoneNumber, confirmOTP, verifyToken, Logout}
+
+const createAccount= async (data)=>{
+  const LINKUPS_USER_PHONE_NUMBER = await AsyncStorage.getItem(STORAGE_KEY_3)
+  return instances.post('/DBcreate/api/users/create', {...data, id:LINKUPS_USER_PHONE_NUMBER})
+}
+export {signInWithPhoneNumber, signUpWithPhoneNumber, confirmOTP, verifyToken, Logout, createAccount}

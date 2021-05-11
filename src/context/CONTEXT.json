@@ -1,3 +1,5 @@
 {
-    "SET_NAME" :"SET_NAME"
+    "SET_NAME" :"SET_NAME",
+    "UPDATE":"UPDATE",
+    "CATP":"CATP"
 }

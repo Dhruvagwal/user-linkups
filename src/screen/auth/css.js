@@ -1,12 +1,17 @@
+import color from 'colors'
+import { clockRunning } from 'react-native-reanimated'
 const styles =  {
     TextInput:{
         padding:5,
         height:50,
-        borderBottomColor:'#333',
-        borderBottomWidth:1,
-        borderRadius:5,
+        borderColor: color.inActive,
+        borderWidth:1,
+        borderRadius:20,
         marginBottom:20,
-        fontSize:20
+        fontSize:20,
+        color:color.white,
+        paddingHorizontal:20,
+        fontFamily:'Montserrat'
     },
     SignUp:{
         alignSelf:'center',
@@ -22,17 +27,20 @@ const styles =  {
         textTransform:'uppercase',
         fontWeight:'600',
         letterSpacing:2,
-        fontWeight:'700',
         opacity:0.75
     },
     SubmitButton:{
-        height:50
+        height:50,
+        backgroundColor:color.active,
+        color:color.white,
+        alignItems:'center',
+        justifyContent:'center',
+        borderRadius:20
     },
     Container:{
         flex:1,
         padding:20,
-        margin:5,
-        backgroundColor:'#d8fdff'
+        backgroundColor: color.dark
     },
     Form:{
         position:'absolute',

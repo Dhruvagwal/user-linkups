@@ -1,5 +1,7 @@
 import React, {useState} from 'react'
-import { StyleSheet, Text, View, TextInput, Button, TouchableOpacity,ActivityIndicator } from 'react-native'
+import { View, TextInput, Button, TouchableOpacity,ActivityIndicator, Pressable } from 'react-native'
+import {Text} from 'styles'
+import color from 'colors'
 
 import CONSTANT from '../../navigation/navigationConstant.json'
 
@@ -38,19 +40,24 @@ const SignUp = ({navigation}) => {
                 <Text style={styles.heading}>OTP</Text>
                 <View style={styles.Form}>
                     <TextInput style={styles.TextInput} onChangeText={setCode} value={Code} keyboardType={'numeric'} placeholder='OTP'/>
-                    <Button style={styles.SubmitButton} title='Submit'  onPress={()=>confirmOtp()}/>
+                    <Pressable style={styles.SubmitButton} title='Submit'  onPress={()=>confirmOtp()}>
+                        <Text>SUBMIT</Text>
+                    </Pressable>
                 </View>
             </View>
         )
     }
     return (
         <View style={styles.Container}>
-            <Text style={styles.heading}>Sign IN</Text>
+            <Text style={styles.heading} regular>Sign IN</Text>
             <View style={styles.Form}>
-                <TextInput onChangeText={setPhoneNumber} value={PhoneNumber} style={styles.TextInput} keyboardType={'numeric'} placeholder='Phone Number'/>
+                <TextInput onChangeText={setPhoneNumber} value={PhoneNumber} style={styles.TextInput} keyboardType={'numeric'} placeholder='Phone Number' placeholderTextColor={color.inActive}/>
                 <Text>{'\n'}</Text>
-                {!loading ?<Button style={styles.SubmitButton} title='Submit' onPress={LoginUser}/>
-                :<ActivityIndicator size="small" color="#0000ff" />}
+                {!loading ?<Pressable style={styles.SubmitButton} onPress={LoginUser}>
+                    <Text regular>SUBMIT</Text>
+                </Pressable>
+                :
+                <ActivityIndicator size="small" color="#0000ff" />}
                 <TouchableOpacity onPress={()=>navigation.navigate(CONSTANT.SignUp)} style={{marginTop:25}}>
                     <Text style={styles.SignUp}>Don't Have An Account? SignUp</Text>
                 </TouchableOpacity>
