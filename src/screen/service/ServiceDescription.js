@@ -129,8 +129,8 @@ const ServiceDescription = ({route}) => {
                                         <MaterialIcons name="keyboard-arrow-right" size={24} color={color.white} />
                                     </RowView>
                                 </RowView>
-                                {[1,2,3,4].map(()=>{
-                                    return <Review/>
+                                {[1,2,3,4].map((item)=>{
+                                    return <Review key={item.toString()}/>
                                 })}
                             </View>
                         </View>
