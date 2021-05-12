@@ -37,9 +37,9 @@ const Category = ({data, setActive, active})=>{
 
 const PRODUCT_HEIGHT = 250
 const PRODUCT_WIDTH = 200
-const ProductList = ({data})=>{
+const ProductList = ({data, active})=>{
     const [like, setLike] = useState(false)
-    return <Pressable onPress={()=>RootNavigation.navigate(CONSTANT.ServiceProvider)} style={{marginHorizontal:15}}>
+    return <Pressable onPress={()=>RootNavigation.navigate(CONSTANT.ServiceProvider, {data, active})} style={{marginHorizontal:15}}>
         <Image source={{uri:data.imageUri}} style={{height:PRODUCT_HEIGHT, width:PRODUCT_WIDTH, borderRadius:30, opacity:.9}}/>
         <Pressable onPress={()=>setLike(like=>!like)} style={{position:'absolute', right:15, top:15}}>
             <AntDesign name="heart" size={30} color={like?color.active:color.white} />
@@ -112,7 +112,7 @@ const Index = ({state}) => {
                             data={providers}
                             showsHorizontalScrollIndicator={false}
                             keyExtractor={()=>Math.random().toString()}
-                            renderItem = {({item})=><ProductList data={item}/>}
+                            renderItem = {({item})=><ProductList data={item} active={active}/>}
                         />
                         <Text>{'\n'}</Text>
                     </View>

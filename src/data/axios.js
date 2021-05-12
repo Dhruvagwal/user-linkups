@@ -1,6 +1,6 @@
 import axios from 'axios'
  
-const NGROK = "http://2721356f8393.ngrok.io"
+const NGROK = "http://a47ff5ba2684.ngrok.io"
 const instances = axios.create({
     baseURL:`${NGROK}/mainlinkupsadmin/us-central1`
 })

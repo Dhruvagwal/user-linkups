@@ -6,7 +6,9 @@ import { MaterialIcons, AntDesign } from '@expo/vector-icons';
 import {BottomSheetScrollView, BottomSheetFlatList, BottomSheetDraggableView } from '@gorhom/bottom-sheet'
 
 import BottomSheet from 'components/BottomSheet'
-import {ProductList} from '../main/home'
+import {ServiceList} from '../service/ServiceProvider'
+
+import {DataConsumer} from 'context/data'
 
 import {Text, RowView} from 'styles'
 import color from 'colors'
@@ -49,29 +51,31 @@ const Review = ()=>{
         </Text>
     </View>
 }
-const ServiceDescription = () => {
+const ServiceDescription = ({route}) => {
+    const {id, provider} = route.params
+    const data = provider.Providers.services.filter((item)=>item.id === id)[0]
     return (
         <View style={{flex:1, backgroundColor:color.dark}}>
             <View style={{height:IMAGE_HEIGHT}}>
                 <FlatList
-                    data={DATA}
+                    data={data.imageLink}
                     snapToInterval={IMAGE_HEIGHT}
                     decelerationRate='fast'
                     keyExtractor={()=>Math.random().toString()}
                     renderItem={({item})=>{
-                        return <Image source={{uri:item}} style={{width:WIDTH, height:IMAGE_HEIGHT}}/>
+                        return <Image source={{uri:item.uri}} style={{width:WIDTH, height:IMAGE_HEIGHT}}/>
                     }}
                 />
             </View>
             <View style={{position:'absolute', right:10, top:IMAGE_HEIGHT/6.5}}>
                 <FlatList
-                    data={DATA}
+                    data={data.imageLink}
                     snapToInterval={IMAGE_PAGINATION_HEIGHT}
                     decelerationRate='fast'
                     keyExtractor={()=>Math.random().toString()}
                     renderItem={({item})=>{
                         return <View style={{marginVertical:10, borderWidth:2, borderColor:color.white, borderRadius:10,overflow:'hidden'}}>
-                            <Image source={{uri:item}} style={{width:IMAGE_PAGINATION_HEIGHT, height:IMAGE_PAGINATION_HEIGHT}}/>
+                            <Image source={{uri:item.uri}} style={{width:IMAGE_PAGINATION_HEIGHT, height:IMAGE_PAGINATION_HEIGHT}}/>
                         </View>
                     }}
                 />
@@ -79,24 +83,24 @@ const ServiceDescription = () => {
             <BottomSheet snapPoints={[HEIGHT*.25,HEIGHT*.85]}>
                 <BottomSheetScrollView>
                     <View style={{padding:20, paddingTop:0}}>
-                        <RowView style={{width:'80%', alignItems:'flex-start', overflow:'visible'}}>
-                            <Text size={25} bold>Lamborghini Aventador</Text>
+                        <RowView style={{width:'80%', alignItems:'flex-start', overflow:'visible', justifyContent:'space-between'}}>
+                            <Text size={25} style={{width:WIDTH/1.4}} bold>{data.name}</Text>
                             <Text size={20}>
                                 <AntDesign name="star" size={24} color={color.active} />
                                 {' '}4.5
                             </Text>
                         </RowView>
-                        <Text regular style={{color:color.inActive}}>Shree Ram Nivas Mechanic</Text>
+                        <Text regular style={{color:color.inActive}}>{provider.name}</Text>
                         <RowView style={{justifyContent:'space-between', marginVertical:20}}>
 
                             <RowView style={{alignItems:'flex-end'}}>
                                 <View>
                                     <Text size={12}>Price</Text>
-                                    <Text size={30} style={{color:color.active}} regular>₹ 500 </Text>
+                                    <Text size={30} style={{color:color.active}} regular>₹ {data.price} </Text>
                                 </View>
                                 <View>
-                                    <Text size={15} style={{color:color.inActive, textDecorationLine:'line-through'}} regular>₹ 675</Text>
-                                    <Text style={{color:color.inActive}} regular>Save ₹ 175</Text>
+                                    <Text size={15} style={{color:color.inActive, textDecorationLine:'line-through'}} regular>₹ {data.mrp}</Text>
+                                    <Text style={{color:color.inActive}} regular>Save ₹ {data.mrp - data.price}</Text>
                                 </View>
                             </RowView>
                             <View style={{backgroundColor:color.active, padding:10, borderRadius:20}}>
@@ -140,14 +144,14 @@ const ServiceDescription = () => {
                     <Text>{'\n'}</Text>
                     <View>
                         <Text style={{marginLeft:20}}>Similar Services</Text>
-                        <BottomSheetFlatList
+                        {/* <BottomSheetFlatList
                             showsHorizontalScrollIndicator={false}
                             contentContainerStyle={{marginTop:10}}
                             horizontal
                             data={[1,2,3,4]}
                             keyExtractor={()=>Math.random().toString()}
                             renderItem={()=><ProductList/>}
-                        />
+                        /> */}
 
                     </View>
                     <Text>{'\n'}</Text>
@@ -157,9 +161,9 @@ const ServiceDescription = () => {
                             showsHorizontalScrollIndicator={false}
                             contentContainerStyle={{marginTop:10}}
                             horizontal
-                            data={[1,2,3,4]}
+                            data={provider.Providers.services}
                             keyExtractor={()=>Math.random().toString()}
-                            renderItem={()=><ProductList/>}
+                            renderItem={({item})=><ServiceList data={item} provider={provider}/>}
                         />
 
                     </View>
