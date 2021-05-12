@@ -55,14 +55,14 @@ const ProductList = ({data, active})=>{
     </Pressable>
 }
 
-const SubCategory = ({width=300, data={}})=>{
-    return <View source={{uri:data.image_Link}} style={{width, height:180, marginHorizontal:15, borderRadius:20, overflow:'hidden', marginBottom:20, backgroundColor: data.style.background}}>
+const SubCategory = ({width=300, data={}, providers})=>{
+    return <Pressable onPress={()=>RootNavigation.navigate(CONSTANT.ServiceList, {id:data.id, providers})} source={{uri:data.image_Link}} style={{width, height:180, marginHorizontal:15, borderRadius:20, overflow:'hidden', marginBottom:20, backgroundColor: data.style.background}}>
                 <View style={[StyleSheet.absoluteFillObject, {justifyContent:'center'}]}>
                     <Image source={{uri:data.image_Link}}  style={{width, height:170, resizeMode:'contain', position:'absolute', right: -width/2,}}/>
                 </View>
                 <Text style={{margin:10, width:230, color:data.style.text}}  numberOfLines={1} adjustsFontSizeToFit size={30} bold>{data.name}</Text>
                 <Text style={{...styles.price,top:100, color:data.style.text}} regular>₹ 510</Text>
-        </View>
+        </Pressable>
 }
 
 const Index = ({state}) => {
@@ -74,7 +74,6 @@ const Index = ({state}) => {
     },[active])
     Object.keys(category).length!==0  && Object.keys(active).length===0 && setActive(category[0])
 
-    
     return (
         <View>
             <ScrollView bounces={false}>
@@ -127,7 +126,7 @@ const Index = ({state}) => {
                             keyExtractor={()=>Math.random().toString()}
                             snapToInterval={330}
                             decelerationRate='fast'
-                            renderItem = {({item})=><SubCategory data={item}/>}
+                            renderItem = {({item})=><SubCategory providers={providers} data={item}/>}
                         />
                         <Text>{'\n'}</Text>
                     </View>

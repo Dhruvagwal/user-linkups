@@ -16,12 +16,6 @@ import color from 'colors'
 const HEIGHT = Dimensions.get('screen').height
 const WIDTH = Dimensions.get('screen').width
 
-const DATA = [  'https://i.pinimg.com/originals/3e/7b/72/3e7b729ae2443a8b77e0e6d651c8d62c.jpg',
-                'https://i.pinimg.com/originals/ee/fd/38/eefd380a720d32ed8a53fa2d68516a28.jpg',
-                'https://mfiles.alphacoders.com/778/778914.jpg',
-                'https://mfiles.alphacoders.com/717/717350.jpg',
-                'https://1.bp.blogspot.com/-VOu5QNaET_I/XvdJZ8e1aBI/AAAAAAAALrY/YeLOiyMSrLAS810JqH8NHzH611JAB230ACK4BGAsYHg/s3840/SuperCars_5743.jpeg'
-              ]
 const IMAGE_HEIGHT = HEIGHT*.75
 const IMAGE_PAGINATION_HEIGHT = 50
 
