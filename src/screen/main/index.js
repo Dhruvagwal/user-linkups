@@ -13,14 +13,14 @@ const HEIGHT = Dimensions.get('screen').height
 
 
 const Index = () => {
-    const {state:{category}, Category} = DataConsumer()
+    const {state, Category} = DataConsumer()
     const [loading, setLoading] = useState(false)
     
     useEffect(()=>{
         setLoading(true)
         Category()
         setLoading(false)
-    })
+    },[])
     return (
         <View style={{flex:1}}>
             <View style={{height:HEIGHT*.05}}/>
@@ -28,7 +28,7 @@ const Index = () => {
                 <View style={{backgroundColor:color.dark, width:'85%'}}/>
                 <View style={{backgroundColor:color.secondaryDark, width:'15%'}}/>
             </View>
-            <Home/>
+            <Home state={state}/>
             <BottomBar/>
         </View>
     )
