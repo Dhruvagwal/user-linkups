@@ -8,6 +8,8 @@ import {BottomSheetScrollView} from '@gorhom/bottom-sheet'
 import { AntDesign } from '@expo/vector-icons'; 
 import moment from 'moment'
 
+import {DataConsumer} from 'context/data'
+
 import {getProviderById, uploadOrder} from 'hooks/useData'
 
 import {Text, RowView} from 'styles'
@@ -66,6 +68,8 @@ const Index = () => {
     const [sheet, setSheet] = useState(false)
     const [data, setData] = useState([])
     const [map, setMap] = useState([])
+
+    const {state:{profile}} = DataConsumer()
     const serviceData = (id)=>{
         const result = data.map(item=>{
             return item.Providers.services.map(service=>{
@@ -112,6 +116,7 @@ const Index = () => {
             var id = `ORD-${Math.floor(Math.random()*1000000)}`
             const order = {
                 ...item,
+                Customer_Id: profile.id,
                 id,
                 orderAt: moment(new Date()).format('LLL'),
                 service,

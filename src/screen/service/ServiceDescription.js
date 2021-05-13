@@ -53,8 +53,9 @@ const Review = ()=>{
 
 const SmallView = ({data})=>{
     const IMAGE_SIZE = 100
+    const URI = 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cHJvZHVjdHxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80'
     return <View style={{backgroundColor: color.elevatedDark,borderRadius:20, margin:10}}>
-        <Image source={{uri:data.imageLink[0].uri}} style={{height:IMAGE_SIZE, width:IMAGE_SIZE, borderRadius:20}}/>
+        <Image source={{uri:data.imageLink!==undefined ? data.imageLink[0].uri: URI}} style={{height:IMAGE_SIZE, width:IMAGE_SIZE, borderRadius:20}}/>
         <Text style={{width:IMAGE_SIZE, height: 45, textAlign:'center', padding:10}} numberofLines={1} adjustsFontSizeToFit>{data.name}</Text>
     </View>
 }
@@ -64,6 +65,7 @@ const ServiceDescription = ({route}) => {
     const [shown, setShown] = useState(false)
     const [list, setList] = useState([])
     const [providerData, setProviderData] = useState([])
+    const {state:{profile}} = DataConsumer()
 
     const addToCart = async ()=>{
         const CART = 'CART'
@@ -110,6 +112,7 @@ const ServiceDescription = ({route}) => {
             const order = {
                 Provider_Id:provider.id,
                 Service_Id:id,
+                Customer_Id:profile.id,
                 id,
                 orderAt: moment(new Date()).format('LLL'),
                 service:data,
@@ -131,7 +134,7 @@ const ServiceDescription = ({route}) => {
                         <ScrollView horizontal>                        
                             <RowView>
                                 {
-                                    list.map(item=><SmallView key={item.Service_Id} data={serviceData(item)}/>)
+                                    list.length!==0 && list.map(item=><SmallView key={item.Service_Id} data={serviceData(item)}/>)
                                 }
                             </RowView>
                         </ScrollView>
