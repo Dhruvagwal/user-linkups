@@ -1,11 +1,13 @@
-import React, {useState} from 'react'
-import { StyleSheet, View, Dimensions, FlatList, ScrollView, Image, Pressable, TextInput } from 'react-native'
+import React, {useState, useEffect} from 'react'
+import { StyleSheet, View, Dimensions, FlatList, ScrollView, Image, Pressable, TextInput, AsyncStorage } from 'react-native'
 
 import BottomBar from 'components/BottomBar'
 import BottomSheet from 'components/BottomSheet'
 import {BottomSheetScrollView} from '@gorhom/bottom-sheet'
 
 import { AntDesign } from '@expo/vector-icons'; 
+
+import {getProviderById} from 'hooks/useData'
 
 import {Text, RowView} from 'styles'
 import color from 'colors'
@@ -31,41 +33,102 @@ const CartView = ({children, style})=>{
         </View>
 }
 
-const CartListView = ()=>{
+const CartListView = ({data, Quantity, setClose=()=>{}, item, quantiyEdit=()=>{}})=>{
     const IMAGE_SIZE = 150
-    const [count, setCount] = useState(1)
-    const uri = "https://us.123rf.com/450wm/bialasiewicz/bialasiewicz1805/bialasiewicz180500624/101345144-decorative-mirror-and-modern-painting-hanging-on-the-wall-with-molding-in-dark-grey-living-room-inte.jpg?ver=6"
-    return <RowView style={{backgroundColor:color.dark, opacity:0.7, height:IMAGE_SIZE, marginBottom:20, borderRadius:20, overflow:'hidden'}}>
-        <Image source={{uri}} style={{height:IMAGE_SIZE, width:IMAGE_SIZE, borderRadius:20}}/>
-        <View style={{margin:10, alignSelf:'flex-start', width: WIDTH-(IMAGE_SIZE+60),justifyContent:'space-around' ,height:IMAGE_SIZE-20}}>
-            <RowView style={{justifyContent:'space-between', alignItems:'flex-start'}}>
+    const [count, setCount] = useState(Quantity)
+    useEffect(()=>{
+        count!==Quantity && quantiyEdit(count, item)
+    },[count])
+    const URI = 'https://hbr.org/resources/images/article_assets/2020/04/Apr20_07_1162572100.jpg'
+    return <Pressable>
+            <RowView style={{backgroundColor:color.dark, opacity:0.7, height:IMAGE_SIZE, marginBottom:20, borderRadius:20, overflow:'hidden'}}>
+            <Image source={{uri:data.imageLink!==undefined ? data.imageLink[0].uri: URI}} style={{height:IMAGE_SIZE, width:IMAGE_SIZE, borderRadius:20}}/>
+            <View style={{margin:10, alignSelf:'flex-start', width: WIDTH-(IMAGE_SIZE+60),justifyContent:'space-around' ,height:IMAGE_SIZE-20}}>
                 <View>
-                    <Text regular size={20}>Micke Sofa</Text>
-                    <Text size={20}>₹ 55,000</Text>
+                    <Text regular size={18} style={{width:'75%'}} numberOfLines={2} adjustsFontSizeToFit>{data.name}</Text>
+                    <Text size={20}>₹ {data.price}</Text>
                 </View>
-                <AntDesign name="close" size={24} color={color.white} />
-            </RowView>
-            <RowView style={{height:60}}>
-                <Pressable onPress={()=>setCount(count+1)} style={styles.button}><AntDesign name="plus" size={24} color={color.white} /></Pressable>
-                <TextInput style={{color:color.white,textAlign:'center',height:60,fontFamily:'Montserrat' ,width:80,padding:5, fontSize:20}} value={count.toString()} keyboardType='decimal-pad' onChangeText={(e)=>{e>=1 && setCount(parseInt(e))}}/>
-                <Pressable onPress={()=>count>1 && setCount(count-1)} style={styles.button}><AntDesign name="minus" size={24} color={color.white} /></Pressable>
-            </RowView>
-        </View>
-    </RowView>
+                <Pressable onPress={()=>setClose(item)} style={{position:'absolute', right:5, top:5}}>
+                    <AntDesign name="close" size={24} color={color.white}/>
+                </Pressable>
+                <RowView style={{height:60}}>
+                    <Pressable onPress={()=>setCount(count+1)} style={styles.button}><AntDesign name="plus" size={24} color={color.white} /></Pressable>
+                    <TextInput style={{color:color.white,textAlign:'center',height:60,fontFamily:'Montserrat' ,width:80,padding:5, fontSize:20}} value={count.toString()} keyboardType='decimal-pad' onChangeText={(e)=>{e>=1 && setCount(parseInt(e))}}/>
+                    <Pressable onPress={()=>count>1 && setCount(count-1)} style={styles.button}><AntDesign name="minus" size={24} color={color.white} /></Pressable>
+                </RowView>
+            </View>
+        </RowView>
+        </Pressable>
 }
 
 const Index = () => {
     const [sheet, setSheet] = useState(false)
+    const [data, setData] = useState([])
+    const [map, setMap] = useState([])
+    const serviceData = (id)=>{
+        const result = data.map(item=>{
+            return item.Providers.services.map(service=>{
+                return service.id === id && service
+            })
+        })[0]
+        return result!==undefined && result.filter(item=>item)[0]
+        return {}
+    }
+    const CheckoutList = ()=>{
+        var list = []
+        var total = 0
+        map.map(item=>{
+            var servicesData = serviceData(item.Service_Id)
+            list = [...list, {name:servicesData.name, price:servicesData.price, Quantity:item.Quantity}]
+            total = (total + servicesData.price*item.Quantity)
+        })
+        total = total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+        return [list, total]
+    }
+    const [list, total] = CheckoutList()
+    const setClose = async (item)=>{
+        var result = JSON.parse(await AsyncStorage.getItem('CART'))
+        const filter = result.filter(data=>data.Service_Id!== item.Service_Id)
+        await AsyncStorage.setItem('CART', JSON.stringify(filter))
+        setMap(filter)
+    }
+
+    const quantiyEdit = async (Quantity, service)=>{
+        const result = {...service, Quantity}
+        var links = []
+        map.map(item=>{
+            item.Service_Id===service.Service_Id ?
+                links = [...links, result]
+            :
+                links = [...links, item]
+        })
+        await AsyncStorage.setItem('CART', JSON.stringify(links))
+        setMap(links)
+    }
+    
+    useEffect(()=>{
+        const getData = async ()=>{
+            const list = JSON.parse(await AsyncStorage.getItem('CART'))
+            setMap(list)
+            list.map(async ({Provider_Id})=>{
+                if (data.filter(item=>item.id!== Provider_Id && true)){
+                        await getProviderById(Provider_Id).then(response=>{
+                            setData([...data, response.data[0]])
+                        })
+                }
+            })
+        }
+        getData()
+    },[])
     return (
         <CartView>
             <View style={{padding:20}}>
                 <Text bold size={30}>Linkups</Text>
                 <Text>Bag</Text>
                 <ScrollView showsVerticalScrollIndicator={false} style={{marginTop:20, marginBottom:HEIGHT*.3}}>
-                    <CartListView/>
-                    <CartListView/>
-                    <CartListView/>
-                    <CartListView/>
+                    {
+                        map.map((item)=><CartListView key={item.Service_Id} setClose={setClose} data={serviceData(item.Service_Id)} item={item} Quantity={item.Quantity} quantiyEdit = {quantiyEdit}/>)
+                    }
                 </ScrollView>
             </View>
             <BottomSheet snapPoints={[HEIGHT*.2,HEIGHT*.5]} onChange={()=>setSheet(!sheet)}>
@@ -73,7 +136,7 @@ const Index = () => {
                 {!sheet ?<RowView style={{justifyContent:'space-between'}}>
                         <View>
                             <Text>Total</Text>
-                            <Text size={30} regular>₹ 55,000</Text>
+                            <Text size={30} regular>₹ {total}</Text>
                         </View>
                         <View>
                             <RowView style={{backgroundColor:color.active, padding:10, borderRadius:100, width:150, justifyContent:'space-between'}}>
@@ -91,14 +154,16 @@ const Index = () => {
                                 <Text style={styles.table} regular >Quantity</Text>
                                 <Text style={styles.table} regular >Price</Text>
                             </RowView>
-                            <RowView style={{justifyContent:'space-between'}}>
-                                <Text style={styles.table}>Micke Sofa</Text>
-                                <Text style={styles.table}>1</Text>
-                                <Text style={styles.table}>₹ 55,000</Text>
-                            </RowView>
+                            {
+                                list.map(item=><RowView key={Math.random().toString()} style={{justifyContent:'space-between'}}>
+                                <Text style={styles.table}>{item.name}</Text>
+                                <Text style={styles.table}>{item.Quantity}</Text>
+                                <Text style={styles.table}>₹ {item.price*item.Quantity}</Text>
+                            </RowView>)   
+                            }
                             <RowView style={{alignSelf:'flex-end', marginRight:20, marginTop:20, alignItems:'flex-end'}}>
                                 <Text regular>Total:</Text>
-                                <Text regular size={25}> ₹ 55,000</Text>
+                                <Text regular size={25}> ₹ {total}</Text>
                             </RowView>
                         </View>
                     </BottomSheetScrollView>

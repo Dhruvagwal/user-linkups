@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { StyleSheet, View, Dimensions, FlatList, Image } from 'react-native'
+import { StyleSheet, View, Dimensions, FlatList, Image, Pressable, AsyncStorage } from 'react-native'
 
 import { MaterialIcons, AntDesign } from '@expo/vector-icons'; 
 
@@ -48,6 +48,21 @@ const Review = ()=>{
 const ServiceDescription = ({route}) => {
     const {id, provider} = route.params
     const data = provider.Providers.services.filter((item)=>item.id === id)[0]
+
+    const addToCart = async ()=>{
+        const CART = 'CART'
+        var store_data = {Service_Id:id,  Provider_Id: provider.id, Quantity:1}
+        var result = JSON.parse(await AsyncStorage.getItem(CART))
+        result = result === null ? [] : result
+        // await AsyncStorage.removeItem(CART)
+        const status = result.filter(item =>item.Service_Id === id)
+        if (status.length!==0){
+            store_data = {...store_data, Quantity:status[0].Quantity+1}
+        }
+        const list = [...result.filter(item=>item.Service_Id!==id), store_data]
+        await AsyncStorage.setItem(CART, JSON.stringify(list))
+    }
+
     return (
         <View style={{flex:1, backgroundColor:color.dark}}>
             <View style={{height:IMAGE_HEIGHT}}>
@@ -166,9 +181,9 @@ const ServiceDescription = ({route}) => {
                     <Text>{'\n'}</Text>
 
                 </BottomSheetScrollView>
-                <View style={{position:'absolute',alignItems:'center',bottom:40, backgroundColor:color.active, width:'45%', padding:15, borderTopRightRadius:50, borderBottomRightRadius:50}}>
+                <Pressable onPress={addToCart} style={{position:'absolute',alignItems:'center',bottom:40, backgroundColor:color.active, width:'45%', padding:15, borderTopRightRadius:50, borderBottomRightRadius:50}}>
                     <Text bold>Add To Cart</Text>
-                </View>
+                </Pressable>
                 <View style={{position:'absolute',bottom:40,right:0,alignItems:'center', backgroundColor:color.active, width:'45%', padding:15, borderTopLeftRadius:50, borderBottomLeftRadius:50}}>
                     <Text bold>Checkout</Text>
                 </View>

@@ -25,9 +25,9 @@ const ServiceListView = ({data, providers})=>{
 
     const provider = providers.filter(item=>item.Providers.services.filter(item=>item.id === data.id && item))[0]
     
-    return <Pressable onPress={()=>RootNavigation.navigate(CONSTANT.ServiceDescription, {id:data.id, provider})} style={{backgroundColor:color.elevatedDark, marginVertical:10, width:WIDTH/2.2, opacity: 0.8, overflow:'hidden'}}>
+    return <Pressable onPress={()=>RootNavigation.navigate(CONSTANT.ServiceDescription, {id:data.id, provider})} style={{backgroundColor:color.dark, marginVertical:10, width:WIDTH/2.2, opacity: 0.7, overflow:'hidden', borderRadius:20}}>
         <Image source={{uri:data.imageLink[0].uri}} style={{width:WIDTH/2.2, height:200,}}/>
-        <View style={{padding:10}}>
+        <View style={{padding:10, height:70,justifyContent:'center'}}>
             <RowView style={{justifyContent:'space-between'}}>
                 <Text size={18} numberOfLines={2} adjustsFontSizeToFit regular style={{width:'65%'}}>{data.name}</Text>
                 <Text style={{color:color.active}} regular>₹ {data.price}</Text>
