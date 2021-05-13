@@ -21,9 +21,13 @@ const getProviderById = async (id)=>{
     })
 }
 
+const uploadOrder = (data)=>{
+    return instances.post('DBcreate/api/orders/create',data)
+}
+
 const getUsersDetails =async ()=>{
     const LINKUPS_USER_PHONE_NUMBER = await AsyncStorage.getItem(STORAGE_KEY_3)
     return instances.get(`/ReadId/api/users/${LINKUPS_USER_PHONE_NUMBER}`)
 }
 
-export {getUsersDetails, getCategory, getProvidersByCategory, getProviderById}
+export {getUsersDetails, getCategory, getProvidersByCategory, getProviderById, uploadOrder}

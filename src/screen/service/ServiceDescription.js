@@ -1,12 +1,17 @@
 import React, {useState} from 'react'
-import { StyleSheet, View, Dimensions, FlatList, Image, Pressable, AsyncStorage } from 'react-native'
+import { StyleSheet, View, Dimensions, FlatList, Image, Pressable, AsyncStorage, Modal, ScrollView, StatusBar } from 'react-native'
 
 import { MaterialIcons, AntDesign } from '@expo/vector-icons'; 
+import moment from 'moment'
 
 import {BottomSheetScrollView, BottomSheetFlatList, BottomSheetDraggableView } from '@gorhom/bottom-sheet'
 
 import BottomSheet from 'components/BottomSheet'
 import {ServiceList} from '../service/ServiceProvider'
+
+import * as RootNavigation from 'navigation/RootNavigation'
+import CONSTANT  from 'navigation/navigationConstant'
+import {getProviderById, uploadOrder} from 'hooks/useData'
 
 import {DataConsumer} from 'context/data'
 
@@ -45,9 +50,20 @@ const Review = ()=>{
         </Text>
     </View>
 }
+
+const SmallView = ({data})=>{
+    const IMAGE_SIZE = 100
+    return <View style={{backgroundColor: color.elevatedDark,borderRadius:20, margin:10}}>
+        <Image source={{uri:data.imageLink[0].uri}} style={{height:IMAGE_SIZE, width:IMAGE_SIZE, borderRadius:20}}/>
+        <Text style={{width:IMAGE_SIZE, height: 45, textAlign:'center', padding:10}} numberofLines={1} adjustsFontSizeToFit>{data.name}</Text>
+    </View>
+}
 const ServiceDescription = ({route}) => {
     const {id, provider} = route.params
     const data = provider.Providers.services.filter((item)=>item.id === id)[0]
+    const [shown, setShown] = useState(false)
+    const [list, setList] = useState([])
+    const [providerData, setProviderData] = useState([])
 
     const addToCart = async ()=>{
         const CART = 'CART'
@@ -61,10 +77,67 @@ const ServiceDescription = ({route}) => {
         }
         const list = [...result.filter(item=>item.Service_Id!==id), store_data]
         await AsyncStorage.setItem(CART, JSON.stringify(list))
+
+        const getData = async ()=>{
+            list.map(async ({Provider_Id})=>{
+                if (providerData.filter(item=>item.id!== Provider_Id && true)){
+                        await getProviderById(Provider_Id).then(response=>{
+                            setProviderData([...providerData, response.data[0]])
+                        })
+                }
+            })
+        }
+        await getData()
+
+        await getProviderById()
+        setList(list)
+        setShown(true)
+    }
+    shown && setTimeout(()=>setShown(false),2000)
+    const serviceData = ({Service_Id})=>{
+        const result = providerData.map(item=>{
+            return item.Providers.services.map(item=>{
+                if (item.id === Service_Id){
+                   return item
+                }
+            })
+        })[0]
+        return result!==undefined?result.filter(item=>item)[0]:{}
     }
 
+    const checkOut = async ()=>{
+            var id = `ORD-${Math.floor(Math.random()*1000000)}`
+            const order = {
+                Provider_Id:provider.id,
+                Service_Id:id,
+                id,
+                orderAt: moment(new Date()).format('LLL'),
+                service:data,
+                Quantity:1
+            }
+            console.log('trigger', id)
+            await uploadOrder(order).then(()=>alert('sucess'))        
+    }
     return (
         <View style={{flex:1, backgroundColor:color.dark}}>
+            <Modal transparent={true} visible={shown}>
+                <StatusBar backgroundColor={'rgba(0,0,0,0.9)'}/>
+                <View style={{flex:1, alignItems:'center', justifyContent:'flex-end', backgroundColor:'rgba(0,0,0,0.9)'}}>
+                    <View style={{backgroundColor:'rgb(26, 34, 47)', width:WIDTH, height:HEIGHT/3, borderTopLeftRadius:20, borderTopRightRadius:20, padding:20}}>
+                        <RowView style={{justifyContent:'space-between'}}>
+                            <Pressable onPress={()=>setShown(false)} style={[styles.button]}><Text>Continue</Text></Pressable>
+                            <Pressable onPress={()=>RootNavigation.navigate(CONSTANT.Cart)} style={[styles.button]}><Text>Checkout</Text></Pressable>
+                        </RowView>
+                        <ScrollView horizontal>                        
+                            <RowView>
+                                {
+                                    list.map(item=><SmallView key={item.Service_Id} data={serviceData(item)}/>)
+                                }
+                            </RowView>
+                        </ScrollView>
+                    </View>
+                </View>
+            </Modal>
             <View style={{height:IMAGE_HEIGHT}}>
                 <FlatList
                     data={data.imageLink}
@@ -184,9 +257,9 @@ const ServiceDescription = ({route}) => {
                 <Pressable onPress={addToCart} style={{position:'absolute',alignItems:'center',bottom:40, backgroundColor:color.active, width:'45%', padding:15, borderTopRightRadius:50, borderBottomRightRadius:50}}>
                     <Text bold>Add To Cart</Text>
                 </Pressable>
-                <View style={{position:'absolute',bottom:40,right:0,alignItems:'center', backgroundColor:color.active, width:'45%', padding:15, borderTopLeftRadius:50, borderBottomLeftRadius:50}}>
+                <Pressable onPress={checkOut} style={{position:'absolute',bottom:40,right:0,alignItems:'center', backgroundColor:color.active, width:'45%', padding:15, borderTopLeftRadius:50, borderBottomLeftRadius:50}}>
                     <Text bold>Checkout</Text>
-                </View>
+                </Pressable>
             </BottomSheet>
         </View>
     )
@@ -197,5 +270,13 @@ export default ServiceDescription
 const styles = StyleSheet.create({
     style:{
         textDecorationLine:'line-through'
+    },
+    button:{
+        backgroundColor:color.active,
+        padding:10,
+        borderRadius:5,
+        width:WIDTH/2.3,
+        alignItems:'center',
+        justifyContent:'center'
     }
 })

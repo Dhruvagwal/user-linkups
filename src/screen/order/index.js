@@ -1,13 +1,14 @@
 import React, {useState, useEffect} from 'react'
-import { StyleSheet, View, Dimensions, FlatList, ScrollView, Image, Pressable, TextInput, AsyncStorage } from 'react-native'
+import { StyleSheet, View, Dimensions, ScrollView, Image, Pressable, TextInput, AsyncStorage } from 'react-native'
 
 import BottomBar from 'components/BottomBar'
 import BottomSheet from 'components/BottomSheet'
 import {BottomSheetScrollView} from '@gorhom/bottom-sheet'
 
 import { AntDesign } from '@expo/vector-icons'; 
+import moment from 'moment'
 
-import {getProviderById} from 'hooks/useData'
+import {getProviderById, uploadOrder} from 'hooks/useData'
 
 import {Text, RowView} from 'styles'
 import color from 'colors'
@@ -39,7 +40,7 @@ const CartListView = ({data, Quantity, setClose=()=>{}, item, quantiyEdit=()=>{}
     useEffect(()=>{
         count!==Quantity && quantiyEdit(count, item)
     },[count])
-    const URI = 'https://hbr.org/resources/images/article_assets/2020/04/Apr20_07_1162572100.jpg'
+    const URI = 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cHJvZHVjdHxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80'
     return <Pressable>
             <RowView style={{backgroundColor:color.dark, opacity:0.7, height:IMAGE_SIZE, marginBottom:20, borderRadius:20, overflow:'hidden'}}>
             <Image source={{uri:data.imageLink!==undefined ? data.imageLink[0].uri: URI}} style={{height:IMAGE_SIZE, width:IMAGE_SIZE, borderRadius:20}}/>
@@ -71,8 +72,7 @@ const Index = () => {
                 return service.id === id && service
             })
         })[0]
-        return result!==undefined && result.filter(item=>item)[0]
-        return {}
+        return result!==undefined ? result.filter(item=>item)[0] : {}
     }
     const CheckoutList = ()=>{
         var list = []
@@ -105,10 +105,28 @@ const Index = () => {
         await AsyncStorage.setItem('CART', JSON.stringify(links))
         setMap(links)
     }
+
+    const checkOut = ()=>{
+        map.map(async item=>{
+            const service = serviceData(item.Service_Id)
+            var id = `ORD-${Math.floor(Math.random()*1000000)}`
+            const order = {
+                ...item,
+                id,
+                orderAt: moment(new Date()).format('LLL'),
+                service,
+            }
+            console.log('trigger', id)
+            await uploadOrder(order).then(()=>alert('sucess'))
+            await AsyncStorage.removeItem('CART')
+            setMap([])
+        })
+    }
     
     useEffect(()=>{
         const getData = async ()=>{
-            const list = JSON.parse(await AsyncStorage.getItem('CART'))
+            var list = JSON.parse(await AsyncStorage.getItem('CART'))
+            list = list!==null ? list : []
             setMap(list)
             list.map(async ({Provider_Id})=>{
                 if (data.filter(item=>item.id!== Provider_Id && true)){
@@ -138,12 +156,12 @@ const Index = () => {
                             <Text>Total</Text>
                             <Text size={30} regular>₹ {total}</Text>
                         </View>
-                        <View>
+                        <Pressable onPress={checkOut}>
                             <RowView style={{backgroundColor:color.active, padding:10, borderRadius:100, width:150, justifyContent:'space-between'}}>
                                 <Text regular>Checkout</Text>
                                 <AntDesign name="arrowright" size={24} color={color.white} />
                             </RowView>
-                        </View>
+                        </Pressable>
                     </RowView>
                 :
                 <View style={{flex:1, marginBottom:HEIGHT*.08}}>
@@ -167,12 +185,12 @@ const Index = () => {
                             </RowView>
                         </View>
                     </BottomSheetScrollView>
-                    <View style={{position:'absolute', bottom:10, alignSelf:'flex-end'}}>
+                    <Pressable onPress={checkOut} style={{position:'absolute', bottom:10, alignSelf:'flex-end'}}>
                         <RowView style={{backgroundColor:color.active, padding:10, borderRadius:100, width:150, justifyContent:'space-between'}}>
                             <Text regular>Checkout</Text>
                             <AntDesign name="arrowright" size={24} color={color.white} />
                         </RowView>
-                    </View>
+                    </Pressable>
                 </View>
                 }
                 </View>
